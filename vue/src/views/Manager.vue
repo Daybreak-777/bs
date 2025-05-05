@@ -32,8 +32,7 @@
               <span>IQC来料检验</span>
             </template>
             <el-menu-item index="/manager/IqcIncomingInspection">来料检验列表</el-menu-item>
-            <el-menu-item index="/manager/IqcIncomingInspectionData">来料检验数据统计</el-menu-item>
-            <el-menu-item index="/manager/IqcIncomingInspectionCharts">来料检验数据统计111</el-menu-item>
+            <el-menu-item index="/manager/IqcIncomingInspectionCharts">来料检验数据统计</el-menu-item>
           </el-sub-menu>
 
           <el-sub-menu index="2">
