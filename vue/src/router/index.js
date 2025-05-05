@@ -15,8 +15,7 @@ const router = createRouter({
       children: [
         { path: 'home', name: 'home', meta: { title: "主页" }, component: () => import('../views/Home.vue')},
         { path: 'IqcIncomingInspection', name: 'IqcIncomingInspection', meta: { title: "来料检验" }, component: () => import('../views/modules/IqcIncomingInspection/IqcIncomingInspection.vue')},
-        { path: 'IqcIncomingInspectionCharts', name: 'IqcIncomingInspectionCharts', meta: { title: "来料检验数据统计1" }, component: () => import('../views/modules/IqcIncomingInspection/IqcIncomingInspectionCharts.vue')},
-        { path: 'IqcIncomingInspectionData', name: 'IqcIncomingInspectionData', meta: { title: "来料检验数据统计" }, component: () => import('../views/modules/IqcIncomingInspection/IqcIncomingInspectionData.vue')},
+        { path: 'IqcIncomingInspectionCharts', name: 'IqcIncomingInspectionCharts', meta: { title: "来料检验数据统计" }, component: () => import('../views/modules/IqcIncomingInspection/IqcIncomingInspectionCharts.vue')},
         { path: 'IqcIncomingInspectionForm', name: 'IqcIncomingInspectionForm', meta: { title: "来料检验表单" }, component: () => import('../views/modules/IqcIncomingInspection/IqcIncomingInspectionForm.vue')},
         { path: 'test', name: 'test', meta: { title: "数据测试页面"}, component: () => import('../views/Test.vue')},
         { path: 'data', name: 'data', meta: { title: "数据统计页面"}, component: () => import('../views/Data.vue')},
