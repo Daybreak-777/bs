@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.IqcIncomingInspectionMapper">
+
+    <insert id="insert" parameterType="com.example.springboot.entity.IqcIncomingInspection">
+        INSERT INTO iqc_incoming_inspection (
+        inspector,
+        inspection_date,
+        material_name,
+        supplier,
+        inspection_quantity,
+        defective_quantity,
+        defective_rate,
+        inspection_result,
+        remarks
+        ) VALUES (
+        #{inspector},
+        #{inspectionDate},
+        #{materialName},
+        #{supplier},
+        #{inspectionQuantity},
+        #{defectiveQuantity},
+        #{defectiveRate},
+        #{inspectionResult},
+        #{remarks}
+        )
+    </insert>
+
+    <update id="updateById" parameterType="com.example.springboot.entity.IqcIncomingInspection">
+        UPDATE iqc_incoming_inspection
+        SET
+        inspector = #{inspector},
+        inspection_date = #{inspectionDate},
+        material_name = #{materialName},
+        supplier = #{supplier},
+        inspection_quantity = #{inspectionQuantity},
+        defective_quantity = #{defectiveQuantity},
+        defective_rate = #{defectiveRate},
+        inspection_result = #{inspectionResult},
+        remarks = #{remarks}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectAll" resultType="com.example.springboot.entity.IqcIncomingInspection">
+        select * from iqc_incoming_inspection
+        <where>
+            <if test="id != null">and id like concat('%', #{id}, '%')</if>
+            <if test="inspector != null">and inspector like concat('%', #{inspector}, '%')</if>
+            <if test="materialName != null">and material_name like concat('%', #{materialName}, '%')</if>
+            <if test="supplier != null">and supplier like concat('%', #{supplier}, '%')</if>
+        </where>
+        order by id asc
+    </select>
+</mapper>
