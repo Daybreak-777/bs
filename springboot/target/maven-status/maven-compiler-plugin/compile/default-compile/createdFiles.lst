@@ -1,0 +1,4 @@
+com\example\exception\GlobalExceptionHandler.class
+com\example\common\Result.class
+com\example\SpringbootApplication.class
+com\example\controller\WebController.class

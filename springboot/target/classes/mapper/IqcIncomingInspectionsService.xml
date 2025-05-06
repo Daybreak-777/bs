@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.IqcIncomingInspectionMapper">
+
+    <insert id="insert" parameterType="com.example.springboot.entity.IqcIncomingInspection">
+        INSERT INTO iqc_incoming_inspection (
+        inspector,
+        inspection_date,
+        material_name,
+        supplier,
+        inspection_quantity,
+        defective_quantity,
+        defective_rate,
+        inspection_result,
+        remarks
+        ) VALUES (
+        #{inspector},
+        #{inspectionDate},
+        #{materialName},
+        #{supplier},
+        #{inspectionQuantity},
+        #{defectiveQuantity},
+        #{defectiveRate},
+        #{inspectionResult},
+        #{remarks}
+        )
+    </insert>
+
+    <update id="updateById" parameterType="com.example.springboot.entity.IqcIncomingInspection">
+        UPDATE iqc_incoming_inspection
+        SET
+        inspector = #{inspector},
+        inspection_date = #{inspectionDate},
+        material_name = #{materialName},
+        supplier = #{supplier},
+        inspection_quantity = #{inspectionQuantity},
+        defective_quantity = #{defectiveQuantity},
+        defective_rate = #{defectiveRate},
+        inspection_result = #{inspectionResult},
+        remarks = #{remarks}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectAll" resultType="com.example.springboot.entity.IqcIncomingInspection">
+        select * from iqc_incoming_inspection
+        <where>
+            <if test="id != null">and id like concat('%', #{id}, '%')</if>
+            <if test="inspector != null">and inspector like concat('%', #{inspector}, '%')</if>
+            <if test="materialName != null">and material_name like concat('%', #{materialName}, '%')</if>
+            <if test="supplier != null">and supplier like concat('%', #{supplier}, '%')</if>
+        </where>
+        order by id asc
+    </select>
+
+    <select id="getSupplierDefectiveCount" resultType="java.util.Map">
+        SELECT supplier, SUM(defective_quantity) AS defectiveCount
+        FROM iqc_incoming_inspection
+        WHERE inspection_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY supplier
+    </select>
+
+    <select id="getMaterialDefectiveCount" resultType="java.util.Map">
+        SELECT material_name AS materialName, SUM(defective_quantity) AS defectiveCount
+        FROM iqc_incoming_inspection
+        WHERE inspection_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY material_name
+    </select>
+
+    <select id="getTrendData" resultType="java.util.Map">
+        SELECT inspection_date AS inspectionDate, SUM(inspection_quantity) AS inspectionQuantity, AVG(defective_rate) AS defectiveRate
+        FROM iqc_incoming_inspection
+        WHERE inspection_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY inspection_date
+        ORDER BY inspection_date
+    </select>
+
+    <select id="getInspectionResultRatio" resultType="java.util.Map">
+        SELECT inspection_result AS inspectionResult, SUM(defective_quantity) AS resultCount
+        FROM iqc_incoming_inspection
+        WHERE inspection_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY inspection_result
+    </select>
+</mapper>

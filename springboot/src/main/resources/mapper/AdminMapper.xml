@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.AdminMapper">
+
+    <insert id="insert" parameterType="com.example.springboot.entity.Admin">
+        insert into admin (username, password, role, name, avatar)
+        values (#{username}, #{password}, #{role}, #{name}, #{avatar})
+    </insert>
+
+    <update id="updateById" parameterType="com.example.springboot.entity.Admin">
+        update admin set username = #{username}, password = #{password}, role = #{role}, name = #{name}, avatar = #{avatar}
+        where id = #{id}
+    </update>
+
+<!--    <delete id="deleteById" parameterType="com.example.springboot.entity.Admin">-->
+<!--        delete from admin where id = #{id}-->
+<!--    </delete>-->
+
+    <select id="selectAll" resultType="com.example.springboot.entity.Admin">
+        select * from admin
+        <where>
+            <if test="username != null">and username like concat('%', #{username}, '%')</if>
+            <if test="name != null">and name like concat('%', #{name}, '%')</if>
+        </where>
+        order by id asc
+    </select>
+<!--    <select id="selectById"  parameterType="Integer" resultType="com.example.springboot.entity.Employee">-->
+<!--        SELECT * FROM admin WHERE ID = #{id}-->
+<!--    </select>-->
+
+</mapper>
