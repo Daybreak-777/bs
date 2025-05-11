@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.SupplierMapper">
+
+    <insert id="insert" parameterType="com.example.springboot.entity.Supplier">
+        insert into supplier (supplier_name, contact_person, phone_number, address)
+        values (#{supplierName}, #{contactPerson}, #{phoneNumber}, #{address})
+    </insert>
+
+    <update id="updateById" parameterType="com.example.springboot.entity.Supplier">
+        update supplier set supplier_name = #{supplierName}, contact_person = #{contactPerson}, phone_number = #{phoneNumber}, address = #{address}
+        where id = #{id}
+    </update>
+
+<!--    <delete id="deleteById" parameterType="com.example.springboot.entity.Supplier">-->
+<!--        delete from supplier where id = #{id}-->
+<!--    </delete>-->
+
+    <select id="selectAll" resultType="com.example.springboot.entity.Supplier">
+        select * from supplier
+        <where>
+            <if test="supplierName != null">and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="contactPerson != null">and contact_person like concat('%', #{contactPerson}, '%')</if>
+        </where>
+        order by id asc
+    </select>
+    
+<!--    <select id="selectById"  parameterType="Integer" resultType="com.example.springboot.entity.Employee">-->
+<!--        SELECT * FROM supplier WHERE ID = #{id}-->
+<!--    </select>-->
+
+</mapper>
