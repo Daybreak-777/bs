@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.FqcProductInspectionMapper">
+
+    <insert id="insert" parameterType="com.example.springboot.entity.FqcProductInspection">
+        insert into fqc_product_Inspection (
+            inspector,
+            inspection_date,
+            product,
+            workshop,
+            inspection_quantity,
+            defective_quantity,
+            defective_rate,
+            inspection_result,
+            remarks
+        ) values (
+            #{inspector},
+            #{inspectionDate},
+            #{product},
+            #{workshop},
+            #{inspectionQuantity},
+            #{defectiveQuantity},
+            #{defectiveRate},
+            #{inspectionResult},
+            #{remarks}
+        )
+    </insert>
+
+    <update id="updateById" parameterType="com.example.springboot.entity.FqcProductInspection">
+        update fqc_product_Inspection
+        set
+            inspector = #{inspector},
+            inspection_date = #{inspectionDate},
+            product = #{product},
+            workshop = #{workshop},
+            inspection_quantity = #{inspectionQuantity},
+            defective_quantity = #{defectiveQuantity},
+            defective_rate = #{defectiveRate},
+            inspection_result = #{inspectionResult},
+            remarks = #{remarks}
+        where id = #{id}
+    </update>
+
+    <select id="selectAll" resultType="com.example.springboot.entity.FqcProductInspection">
+        select * from fqc_product_Inspection
+        <where>
+            <if test="id != null">and id like concat('%', #{id}, '%')</if>
+            <if test="inspector != null">and inspector like concat('%', #{inspector}, '%')</if>
+            <if test="inspectionDate != null">and inspection_date = #{inspectionDate}</if>
+            <if test="product != null">and product like concat('%', #{product}, '%')</if>
+            <if test="workshop != null">and workshop like concat('%', #{workshop}, '%')</if>
+        </where>
+        order by id asc
+    </select>
+
+    <select id="getProductDefectiveCount" resultType="java.util.Map">
+        select
+        product,
+        SUM(defective_quantity) AS defectiveCount
+        from fqc_product_Inspection
+        where
+        inspection_date between #{startDate} and #{endDate}
+        group by product
+    </select>
+
+    <select id="getWorkshopDefectiveCount" resultType="java.util.Map">
+        select
+            workshop,
+            SUM(defective_quantity) AS defectiveCount
+        from fqc_product_Inspection
+        where
+            inspection_date between #{startDate} and #{endDate}
+        group by workshop
+    </select>
+
+    <select id="getTrendData" resultType="java.util.Map">
+        select
+            inspection_date AS inspectionDate,
+            SUM(inspection_quantity) AS inspectionQuantity,
+            AVG(defective_rate) AS defectiveRate
+        from fqc_product_Inspection
+        where
+            inspection_date between #{startDate} and #{endDate}
+        group by inspection_date
+        ORDER BY inspection_date
+    </select>
+
+    <select id="getInspectionResultRatio" resultType="java.util.Map">
+        select
+            inspection_result AS inspectionResult,
+            COUNT(*) AS resultCount
+        from fqc_product_Inspection
+        where
+            inspection_date between #{startDate} and #{endDate}
+        group by inspection_result
+    </select>
+</mapper>
